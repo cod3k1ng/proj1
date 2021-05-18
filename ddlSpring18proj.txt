@@ -1,0 +1,70 @@
+CREATE TABLE Supplier(Supplier_ID int Primary Key, Name varchar(25), Street varchar(30), City varchar(30), State varchar(20), Zip int);
+
+CREATE TABLE Inventory (Code varchar(20) Primary Key, In_Stock int, On_Bid int, On_Order int, On_OrderBid int, Avg_Net_Cost int, List_Price int, last_ordered date, SZE varchar(20), units varchar(20), description varchar(50), features varchar(30),discriminator varchar(2), Supplier_One int, Supplier_Two int, FOREIGN KEY (Supplier_One) REFERENCES Supplier(Supplier_ID), FOREIGN KEY (Supplier_Two) REFERENCES Supplier(Supplier_ID));
+
+
+CREATE TABLE Projects (Project_ID int Primary Key, Start_Date date, End_Date date);
+
+
+CREATE TABLE Requirements (Project_ID int, Code varchar(20), Qty_Needed int, cost int, PRIMARY KEY (Project_ID, Code), FOREIGN KEY (Project_ID) References Projects(Project_ID), FOREIGN KEY (Code) REFERENCES Inventory(Code));
+
+CREATE TABLE Procurement_Info (Supplier_ID int, Code varchar(20), lead_time varchar(30), sell_price int, PRIMARY KEY (Supplier_ID,Code), FOREIGN KEY (Supplier_ID) REFERENCES Supplier(Supplier_ID), FOREIGN KEY (Code) REFERENCES Inventory(Code));
+
+CREATE TABLE Materials_Used (Project_ID int, Code varchar(20), Use_Date date, Quantity int, Primary KEY (Project_ID, Code, Use_Date), FOREIGN KEY (Project_ID) References Projects(Project_ID), FOREIGN KEY (Code) REFERENCES Inventory(Code));
+
+
+CREATE TABLE Purchase_Order (Supplier_ID int, Code varchar(20), Qty_Purchased int, Purchase_Date date, PRIMARY KEY(Supplier_ID, Code), FOREIGN KEY (Supplier_ID) REFERENCES Supplier(Supplier_ID), FOREIGN KEY (Code) REFERENCES Inventory(Code));
+
+format columns for currency
+COLUMN Avg_Net_Cost FORMAT $99,999.00;
+
+COLUMN List_Price FORMAT $99,999.00;
+4-
+COLUMN cost FORMAT $99,999.00;
+
+COLUMN sell_price FORMAT $99,999.00;
+
+
+
+
+
+
+INSERT STATEMENTS 
+
+INSERT INTO Supplier(Supplier_ID, Name, Street, City, State, Zip) VALUES (2, 'Name', 'Street Address', 'City', 'State', 55555);
+
+plants
+
+INSERT INTO Inventory(Code, In_Stock, On_Bid, On_Order, On_OrderBid, Avg_Net_Cost, List_Price, last_ordered, SZE, description, discriminator, Supplier_One, Supplier_Two) VALUES ('FICAS', 40, 50, 50, 10, 500, 650, '08-JUL-2018', '10 gal', 'yellow plant', 'pl', 2,3);
+
+Pottery 
+
+INSERT INTO Inventory(Code, In_Stock, On_Bid, Avg_Net_Cost, List_Price, SZE, description, features) VALUES ('code', #instock, #onbid, #avgcost, #listprice, 'size', 'description');
+
+Materials
+
+INSERT INTO Inventory(Code, In_Stock, Avg_Net_Cost, List_Price, units, description) VALUES ('CODE', #instock, #avgcost, #listprice, 'unit size', 'yellow box');
+
+
+Project
+
+INSERT INTO Projects(Project_ID, Start_Date, End_Date) VALUES (id#, '44-JUL-2018', '44-JUN-2018');
+
+Requirements
+
+INSERT INTO Requirements(Project_ID, Code, Qty_Needed, cost) VALUES (ID#, 'ITEMCODE', #NEEDED, #COST);
+
+Procurement info 
+
+INSERT INTO Procurement_Info(Supplier_ID, CODE, lead_time, sell_price) VALUES (#ID, 'itemcode', 'lead time', #sellprice);
+
+
+materials used
+
+INSERT INTO Materials_Used(Project_ID, Code, Use_Date, Quantity) VALUES (id#, 'item code', '08-nov-2018', #quantity);
+
+INSERT INTO Purchase_Order(Supplier_ID, Code, Qty_Purchased, Purchase_Date) VALUES (id#, 'item code', #purchased, '12-DEC-2018');
+
+
+CREATE TABLE Purchase_Order (Supplier_ID int, Code varchar(20), Qty_Purchased int, Purchase_Date date, PRIMARY KEY(Supplier_ID, Code), FOREIGN KEY (Supplier_ID) REFERENCES Supplier(Supplier_ID), FOREIGN KEY (Code) REFERENCES Inventory(Code));
+
